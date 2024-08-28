@@ -1,0 +1,228 @@
+{
+	"info": {
+		"_postman_id": "b8ac89f3-31cd-4def-ab15-848258e66bfa",
+		"name": "GoRest WorkFlow Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17988813"
+	},
+	"item": [
+		{
+			"name": "1-Create A User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();// JavaScript Object",
+							"const uId = res.id;",
+							"console.log(\"User Id is = \"+uId);",
+							"//setting variable at Local variable",
+							"pm.variables.set(\"user_ID\",uId);",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{tokenID}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Jaydeep {{$randomLastName}}\", \n    \"gender\":\"male\", \n    \"email\":\"Jaydeep_{{$randomEmail}}\", \n    \"status\":\"active\"\n    } ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURI}}/public/v2/users",
+					"host": [
+						"{{BaseURI}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2-Get A User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{tokenID}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BaseURI}}/public/v2/users/{{user_ID}}",
+					"host": [
+						"{{BaseURI}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{user_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3-Update A User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{tokenID}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"status\": \"inactive\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURI}}/public/v2/users/{{user_ID}}",
+					"host": [
+						"{{BaseURI}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{user_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4-Delete A User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{tokenID}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BaseURI}}/public/v2/users/{{user_ID}}",
+					"host": [
+						"{{BaseURI}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{user_ID}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"pm.test(\"Response time is less than 2000ms\", function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+					"});"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "tokenID",
+			"value": "Bearer 0bcbfdb4bade898df1964c1036953380df263d8c49276f10f780b9498fe49030",
+			"type": "string"
+		}
+	]
+}
